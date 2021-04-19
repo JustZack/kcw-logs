@@ -33,7 +33,7 @@ function kcw_logs_manager_init() {
     kcw_logs_enqueue_dependencies();
 
     //Determine what type of use we are dealing with
-   kcw_log_get_user_roles();
+    kcw_logs_wp_current_is_priviledged();
 }
 
 add_shortcode("kcw-logs-manager", "kcw_logs_manager_init");
