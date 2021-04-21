@@ -9,8 +9,10 @@
 */
 
 include_once "kcw-logs-roles.php";
-include_once "wpdb-util.php";
+include_once "kcw-logs-wpdb-util.php";
 include_once "kcw-logs-table.php";
+include_once "user-interface-functions.php";
+include_once "kcw-logs-session.php";
 
 function  kcw_logs_register__dependencies() {
     wp_register_style("kcw-logs.main", plugins_url("kcw-gallery.css", __FILE__), array(), "1.0.0");
@@ -38,7 +40,11 @@ function kcw_logs_install() {
     }
 }
 register_activation_hook( __FILE__, "kcw_logs_install" );
+
 function kcw_logs_manager_init() {
+    //Register / revalidate session
+    var_dump(kcw_logs_build_session());
+    kcw_logs_determine_interface_buttons();
     //Engueue nessesary stuff
     kcw_logs_enqueue_dependencies();
 
