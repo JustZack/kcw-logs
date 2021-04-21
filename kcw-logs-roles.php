@@ -39,10 +39,10 @@ function kcw_logs_wp_current_privilege() {
      && (kcw_logs_current_is_keymaster() || kcw_logs_current_is_moderator())){
         //Name must be white listed
         global $staff;
-        kcw_logs_wp_current_user_email();
+        $cemail = kcw_logs_wp_current_user_email();
         foreach ($staff as $ename=>$eval) {
             //On the list
-            if ($ename == kcw_logs_wp_current_user_email()) return $eval;
+            if ($ename == $cemail) return $eval;
         }
 
     }

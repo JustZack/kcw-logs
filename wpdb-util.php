@@ -54,6 +54,17 @@ function kcw_logs_wpdb_util_update_row($table_name, $row_id, $row) {
     
 }
 
+function kcw_logs_wpdb_utils_structure_list($items, $separator) {
+    $list = "";
+    foreach($items as $item) {
+        $list .= "$item";
+        //Only add commas for non-last items
+        if ($item != $items[count($items) - 1])
+            $list .= " $separator ";
+        $list .= " ";
+    }
+    return $list;
+}
 //Structure columns for selections
 function kcw_logs_wpdb_utils_structure_columns($columns) {
     $col_sql = "";
@@ -61,13 +72,7 @@ function kcw_logs_wpdb_utils_structure_columns($columns) {
     if ($columns == "*" || is_string($columns)) {
         $col_sql = "$columns";
     } else {
-        foreach($columns as $col) {
-            $col_sql .= "$col";
-            //Only ad commas for non-last items
-            if ($col != $columns[count($columns) - 1])
-                $col_sql .= ",";
-            $col_sql .= " ";
-        }
+        $col_sql = kcw_logs_wpdb_utils_structure_list($columns, ",");
     }
 
     return $col_sql;
@@ -81,13 +86,7 @@ function kcw_logs_wpdb_utils_structure_where($conditionals, $conditional_operato
         if (is_string($conditionals)) {
             $where_sql .= $conditionals;
         } else {
-            foreach($conditionals as $cond) {
-                $where_sql .= "$cond";
-                //Only ad commas for non-last items
-                if ($cond != $conditionals[count($conditionals) - 1])
-                    $where_sql .= " $conditional_operator";
-                $where_sql .= " ";
-            }
+            $where_sql .= kcw_logs_wpdb_utils_structure_list($conditionals, $conditional_operator);
         }
     }
 
