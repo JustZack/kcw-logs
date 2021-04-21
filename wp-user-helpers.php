@@ -52,31 +52,4 @@ function kcw_logs_current_is_moderator() {
     return kcw_logs_wp_is_bbp_moderator($roles);
 }
 
-function kcw_logs_wp_current_privilege() {
-    //Must be: Admin or Editor AND keymaster or moderator of the site
-    //I.E. Both a trusted forum member and KCW  => being paid, but must also be on the list
-    if ((kcw_logs_wp_current_is_admin() || kcw_logs_wp_current_is_editor())
-     && (kcw_logs_current_is_keymaster() || kcw_logs_current_is_moderator())){
-        //Name must be white listed
-        global $staff;
-        kcw_logs_wp_current_user_email();
-        foreach ($staff as $ename=>$eval) {
-            //On the list
-            if ($ename == kcw_logs_wp_current_user_email()) return $eval;
-        }
-
-    }
-    //Not on the list
-    return false;
-}
-function kcw_logs_wp_current_is_priviledged() {
-    $priv = kcw_logs_wp_current_privilege();
-    if ($priv) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
 ?>
