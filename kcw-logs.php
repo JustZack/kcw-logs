@@ -9,6 +9,8 @@
 */
 
 include_once "kcw-logs-roles.php";
+include_once "wpdb-util.php";
+include_once "kcw-logs-table.php";
 
 function  kcw_logs_register__dependencies() {
     wp_register_style("kcw-logs.main", plugins_url("kcw-gallery.css", __FILE__), array(), "1.0.0");
@@ -27,13 +29,19 @@ function kcw_logs_enqueue_dependencies() {
 }
 
 
+function kcw_logs_install() {
 
+    global $kcw_logs_db_tables;
+    global $kcw_logs_db_columns;
+    for ($i = 0;$i < count($kcw_logs_db_tables);$i++) {
+        kcw_logs_wpdb_utils_create_table($kcw_logs_db_tables[$i], $kcw_logs_db_columns[$i]);
+    }
+}
+register_activation_hook( __FILE__, "kcw_logs_install" );
 function kcw_logs_manager_init() {
     //Engueue nessesary stuff
     kcw_logs_enqueue_dependencies();
 
-    //Determine what type of use we are dealing with
-   kcw_log_get_user_roles();
 }
 
 add_shortcode("kcw-logs-manager", "kcw_logs_manager_init");
