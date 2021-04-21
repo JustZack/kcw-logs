@@ -81,8 +81,9 @@ function kcw_logs_wpdb_utils_structure_columns($columns) {
 function kcw_logs_wpdb_utils_structure_where($conditionals, $conditional_operator) {
     $where_sql = "where ";
 
-    if (!isset($conditionals) || $conditionals == "") $where_sql = "";
-    else {
+    if (!isset($conditionals) || $conditionals == "") {
+        $where_sql = "";
+    } else {
         if (is_string($conditionals)) {
             $where_sql .= $conditionals;
         } else {
