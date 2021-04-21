@@ -5,8 +5,8 @@
         [
             [
                 0=>[kcw_logs_wpdb_utils_create_column("projectid","varchar(15)")],
-                1=>[kcw_logs_wpdb_utils_create_column("start_date","datetime")],
-                2=>[kcw_logs_wpdb_utils_create_column("end_date","datetime", false)],
+                1=>[kcw_logs_wpdb_utils_create_column("start","datetime")],
+                2=>[kcw_logs_wpdb_utils_create_column("end","datetime", false)],
                 3=>[kcw_logs_wpdb_utils_create_column("name","varchar(255)")],
                 4=>[kcw_logs_wpdb_utils_create_column("description","varchar(255)")],
                 5=>[kcw_logs_wpdb_utils_create_column("customerid","varchar(15)")],
@@ -26,12 +26,12 @@
                 2=>[kcw_logs_wpdb_utils_create_column("staffid","varchar(15)")],
                 3=>[kcw_logs_wpdb_utils_create_column("description","varchar(255)")],
                 4=>[kcw_logs_wpdb_utils_create_column("hours","decimal(3, 3)")],
-                5=>[kcw_logs_wpdb_utils_create_column("date_performed","datetime")],
-                6=>[kcw_logs_wpdb_utils_create_column("date_submited","datetime")],
+                5=>[kcw_logs_wpdb_utils_create_column("performed","datetime")],
+                6=>[kcw_logs_wpdb_utils_create_column("submited","datetime")],
             ],
             [
                 0=>[kcw_logs_wpdb_utils_create_column("staffid","varchar(15)")],
-                1=>[kcw_logs_wpdb_utils_create_column("created_date","datetime")],
+                1=>[kcw_logs_wpdb_utils_create_column("created","datetime")],
                 2=>[kcw_logs_wpdb_utils_create_column("name","varchar(100)")],
                 3=>[kcw_logs_wpdb_utils_create_column("phone","varchar(25)")],
                 4=>[kcw_logs_wpdb_utils_create_column("email","varchar(100)")],
@@ -40,15 +40,17 @@
                 0=>[kcw_logs_wpdb_utils_create_column("expenseid","varchar(15)")],
                 1=>[kcw_logs_wpdb_utils_create_column("projectid","varchar(255)")],
                 2=>[kcw_logs_wpdb_utils_create_column("staffid","varchar(255)")],
-                3=>[kcw_logs_wpdb_utils_create_column("added_date","datetime")],
+                3=>[kcw_logs_wpdb_utils_create_column("added","datetime")],
                 4=>[kcw_logs_wpdb_utils_create_column("description","varchar(255)")],
                 5=>[kcw_logs_wpdb_utils_create_column("cost","decimal(6, 3)")],
 
             ],
             [
                 0=>[kcw_logs_wpdb_utils_create_column("sessionid","varchar(15)")],
-                1=>[kcw_logs_wpdb_utils_create_column("started_date","datetime")],
                 2=>[kcw_logs_wpdb_utils_create_column("staffid","varchar(15)")],
+                1=>[kcw_logs_wpdb_utils_create_column("started","datetime")],
+                1=>[kcw_logs_wpdb_utils_create_column("expires","datetime")],
+                3=>[kcw_logs_wpdb_utils_create_column("token","varchar(50)")],
             ],
             [
                 0=>[kcw_logs_wpdb_utils_create_column("statusid","varchar(15)")],

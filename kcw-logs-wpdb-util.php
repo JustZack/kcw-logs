@@ -28,13 +28,16 @@ function kcw_logs_wpdb_utils_create_table($table_name, $columns) {
     }
     $cols .= " );";
     $sql = $create . $cols;
-    var_dump($sql);
     return kcw_logs_wpdb_util_query($sql);
+}
+
+function kcw_logs_wpdb_util_data_type_pair($column, $value) {
+    $row_item = array($column=>$value);
+    return $row_item;
 }
 
 //Inserts a new* $row into the $table_name
 function kcw_logs_wpdb_util_insert_row($table_name, $row) {
-    
     $columns = " ( ";
     foreach($row as $name=>$value) $columns .= "$name, ";
     $columns .= " ) ";
