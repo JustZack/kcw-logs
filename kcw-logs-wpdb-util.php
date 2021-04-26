@@ -22,7 +22,7 @@ function kcw_logs_wpdb_utils_create_table($table_name, $columns) {
 
     $cols = "( ";
     for($i = 0;$i < count($columns);$i++) {
-        $col = $columns[$i][0];
+        $col = $columns[$i];
         $cols .= "{$col["name"]} {$col["type"]} {$col["options"]}";
         if ($i < count($columns)-1) $cols .= ", ";
     }
@@ -103,12 +103,19 @@ function kcw_logs_wpdb_util_get_row($table_name, $conditionals = "", $columns = 
     $where = kcw_logs_wpdb_utils_structure_where($conditionals, $default_conditional);
     $select = "select $columns from {$wpdb->prefix}$table_name";
     $sql = "$select $where;";
-    return kcw_logs_wpdb_util_query($sql);
+    //var_dump($sql);
+    return kcw_logs_wpdb_util_query($sql)[0];
 }
 
 //Deletes the row in the given table with the given $row_id
 function kcw_logs_wpdb_util_delete_row($table_name, $row_id) {
 
+}
+
+//Determine if a table exists
+function kcw_logs_wpdb_util_table_exists($table_name) {
+    global $wpdb;
+    return ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name);
 }
 
 ?>

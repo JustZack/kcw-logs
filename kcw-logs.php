@@ -10,6 +10,7 @@
 
 include_once "kcw-logs-roles.php";
 include_once "kcw-logs-wpdb-util.php";
+include_once "kcw-logs-staff.php";
 include_once "kcw-logs-table.php";
 include_once "user-interface-functions.php";
 include_once "kcw-logs-session.php";
@@ -30,23 +31,29 @@ function kcw_logs_enqueue_dependencies() {
     wp_enqueue_script("kcw-logs.jquery");
 }
 
-
-function kcw_logs_install() {
-
-    global $kcw_logs_db_tables;
-    global $kcw_logs_db_columns;
-    for ($i = 0;$i < count($kcw_logs_db_tables);$i++) {
-        kcw_logs_wpdb_utils_create_table($kcw_logs_db_tables[$i], $kcw_logs_db_columns[$i]);
-    }
-}
-register_activation_hook( __FILE__, "kcw_logs_install" );
-
 function kcw_logs_manager_init() {
-    //Register / revalidate session
-    var_dump(kcw_logs_build_session());
-    kcw_logs_determine_interface_buttons();
-    //Engueue nessesary stuff
-    kcw_logs_enqueue_dependencies();
+    //If current user is staff, show them the log interface
+    if (kcw_logs_current_user_is_staff()) {
+        //If any tables are missing, create them
+        if (kcw_logs_any_tables_missing()) kcw_logs_install_tables();
+        
+        ///If any of the default staff are missing in the database, add them
+        if (kcw_logs_any_staff_missing()) kcw_logs_insert_default_staff();
+
+        var_dump("staff");
+
+        if (false/*kcw_logs_current_session_exists*/); //Use the session
+        else; //Build, store, and use the session
+
+        //var_dump(kcw_logs_build_session());
+        //kcw_logs_determine_interface_buttons();
+        //Engueue nessesary stuff
+        kcw_logs_enqueue_dependencies();
+    } 
+    //Else redirect to home page, this is a normal / logged out user
+    else {
+        
+    }
 
 }
 
