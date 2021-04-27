@@ -12,6 +12,7 @@ function kcw_logs_wpdb_utils_create_column($varname, $vartype, $NOTNULL = true, 
     $column["name"] = $varname;
     $column["type"] = $vartype;
     $column["options"] = ($NOTNULL?" not null ":"");
+    $column["options"] .= ($primary_key?" auto_increment ":"");
     return $column;
 }
 //Creates a table in wordpress;

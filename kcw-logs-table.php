@@ -21,7 +21,7 @@ function kcw_logs_any_tables_missing() {
 
         $kcw_logs_db_table_data = array(
             "logs_project"=>[
-            0=>kcw_logs_wpdb_utils_create_column("projectid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("projectid","varchar(15)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("start","datetime"),
             2=>kcw_logs_wpdb_utils_create_column("end","datetime", false),
             3=>kcw_logs_wpdb_utils_create_column("name","varchar(255)"),
@@ -30,7 +30,7 @@ function kcw_logs_any_tables_missing() {
             6=>kcw_logs_wpdb_utils_create_column("statusid","varchar(15)")
         ],
         "logs_customer"=>[
-            0=>kcw_logs_wpdb_utils_create_column("customerid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("customerid","varchar(15)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("created_date","datetime"),
             2=>kcw_logs_wpdb_utils_create_column("name","varchar(100)"),
             3=>kcw_logs_wpdb_utils_create_column("phone","varchar(25)"),
@@ -38,7 +38,7 @@ function kcw_logs_any_tables_missing() {
             5=>kcw_logs_wpdb_utils_create_column("address","varchar(255)")
         ],
         "logs_tasks"=>[
-            0=>kcw_logs_wpdb_utils_create_column("taskid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("taskid","varchar(15)"), true, true,
             1=>kcw_logs_wpdb_utils_create_column("projectid","varchar(15)"),
             2=>kcw_logs_wpdb_utils_create_column("staffid","varchar(15)"),
             3=>kcw_logs_wpdb_utils_create_column("description","varchar(255)"),
@@ -47,7 +47,7 @@ function kcw_logs_any_tables_missing() {
             6=>kcw_logs_wpdb_utils_create_column("submited","datetime"),
         ],
         "logs_staff"=>[
-            0=>kcw_logs_wpdb_utils_create_column("staffid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("staffid","varchar(15)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("created","datetime"),
             2=>kcw_logs_wpdb_utils_create_column("name","varchar(100)"),
             4=>kcw_logs_wpdb_utils_create_column("email","varchar(100)"),
@@ -55,7 +55,7 @@ function kcw_logs_any_tables_missing() {
             6=>kcw_logs_wpdb_utils_create_column("wp_user","bigint(20)"),
         ],
         "logs_expenses"=>[
-            0=>kcw_logs_wpdb_utils_create_column("expenseid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("expenseid","varchar(15)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("projectid","varchar(255)"),
             2=>kcw_logs_wpdb_utils_create_column("staffid","varchar(255)"),
             3=>kcw_logs_wpdb_utils_create_column("added","datetime"),
@@ -64,14 +64,14 @@ function kcw_logs_any_tables_missing() {
 
         ],
         "logs_sessions"=>[
-            0=>kcw_logs_wpdb_utils_create_column("sessionid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("sessionid","varchar(15)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("staffid","varchar(15)"),
             2=>kcw_logs_wpdb_utils_create_column("created","datetime"),
             3=>kcw_logs_wpdb_utils_create_column("expires","datetime"),
             4=>kcw_logs_wpdb_utils_create_column("token","varchar(10)"),
         ],
         "logs_status"=>[
-            0=>kcw_logs_wpdb_utils_create_column("statusid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("statusid","varchar(15)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("name","varchar(50)"),
             2=>kcw_logs_wpdb_utils_create_column("description","varchar(255)"),
         ],

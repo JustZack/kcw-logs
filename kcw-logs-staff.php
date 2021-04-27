@@ -85,7 +85,7 @@ function kcw_logs_insert_staff($staff_email, $staff_data) {
     $staff_member["staffid"] = "increment";
     $staff_member["created"] =  strtotime($wp_user["user_registered"]);
     $staff_member["name"] = $staff_data["name"];
-    $staff_member["email"] = -$wp_user["user_email"];
+    $staff_member["email"] = $wp_user["user_email"];;
     $staff_member["role"] = -$staff_data["role"];
     $staff_member["wp_user_id"] = $wp_user["ID"];
 
