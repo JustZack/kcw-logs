@@ -36,18 +36,12 @@ $kcw_logs_default_staff = array(//Mapping relevent usernames to known roles
 );
 
 
-
 function kcw_logs_any_staff_missing() {
     global $kcw_logs_default_staff;
     $db_staff = kcw_logs_wpdb_util_get_row("logs_staff");
     //Same number of staff, possibly different people
     if (count($db_staff) == count($kcw_logs_default_staff)) {
-        foreach($db_staff as $dbs) {
-            foreach($kcw_logs_default_staff as $kcws) {
-                var_dump("TODO");
-            }
-            return true;
-        }
+        //TODO
     }
     //Different number of staff, definately missing (or have too many) staff
     else {
