@@ -34,6 +34,9 @@ function kcw_logs_manager_init() {
     //kcw_logs_uninstall_tables();
     //If current user is staff, show them the log interface 
     if (/*false && */kcw_logs_current_user_is_staff()) {
+        //Engueue nessesary stuff
+        kcw_logs_enqueue_dependencies();
+
         //Delete a buildup of expired sessions
         if (kcw_logs_get_num_expired_sessions() > 10) kcw_logs_delete_expired_sessions();
 
@@ -52,8 +55,6 @@ function kcw_logs_manager_init() {
         var_dump($session);
 
         //kcw_logs_determine_interface_buttons();
-        //Engueue nessesary stuff
-        kcw_logs_enqueue_dependencies();
     } 
     //Else redirect to home page, this is a normal / logged out user
     else {
