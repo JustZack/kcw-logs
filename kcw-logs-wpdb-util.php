@@ -119,12 +119,16 @@ function kcw_logs_wpdb_util_get_row($table_name, $conditionals = "", $columns = 
     $where = kcw_logs_wpdb_utils_structure_where($conditionals, $default_conditional);
     $select = "select $columns from {$wpdb->prefix}$table_name";
     $sql = "$select $where;";
-    return kcw_logs_wpdb_util_query($sql)[0];
+    return kcw_logs_wpdb_util_query($sql);
 }
 
 //Deletes the row in the given table with the given $row_id
-function kcw_logs_wpdb_util_delete_row($table_name, $row_id) {
-
+function kcw_logs_wpdb_util_delete_row($table_name, $condition) {
+    global $wpdb;
+    $delete = "delete from {$wpdb->prefix}$table_name";
+    $where = kcw_logs_wpdb_utils_structure_where($condition, "and");
+    $sql = "$delete $where;";
+    return kcw_logs_wpdb_util_query($sql);
 }
 
 //Determine if a table exists

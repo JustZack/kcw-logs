@@ -57,8 +57,8 @@ function kcw_logs_any_staff_missing() {
 
 function kcw_logs_current_user_is_staff() {
     $email = kcw_logs_wp_current_user_email();
-    $staff_row = kcw_logs_wpdb_util_get_row("logs_staff", "email = '$email'", "*");
-
+    $staff = kcw_logs_wpdb_util_get_row("logs_staff", "email = '$email'", "*");
+    $staff_row = $staff[0];
     //If a row in the database doesnt exist, it may have not even been added yet.
     if (count($staff_row) == 0) {
         //Check if this user is in the staff object

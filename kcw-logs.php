@@ -34,22 +34,24 @@ function kcw_logs_manager_init() {
     //kcw_logs_uninstall_tables();
     //If current user is staff, show them the log interface
     if (/*false && */kcw_logs_current_user_is_staff()) {
-        $staffid = kcw_logs_current_user_staffid();
+        //Delete a buildup of expired sessions
+        if (kcw_logs_get_num_expired_sessions() > 10) kcw_logs_delete_expired_sessions();
+
         //If any tables are missing, create them
         if (kcw_logs_any_tables_missing()) kcw_logs_install_tables();
         
         ///If any of the default staff are missing in the database, add them
         if (kcw_logs_any_staff_missing()) kcw_logs_insert_default_staff();
 
-        $session = kcw_logs_get_session($staffid);;
+        //Get the current users staffid
+        $staffid = kcw_logs_current_user_staffid();
+
+        //Get the current users session OR create it
+        $session = kcw_logs_get_session($staffid);
         if (!$session) $session = kcw_logs_start_session($staffid);
         
         var_dump($session);
 
-        if (false/*kcw_logs_current_session_exists*/); //Use the session
-        else; //Build, store, and use the session
-
-        //var_dump(kcw_logs_build_session());
         //kcw_logs_determine_interface_buttons();
         //Engueue nessesary stuff
         kcw_logs_enqueue_dependencies();

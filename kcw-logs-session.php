@@ -9,7 +9,8 @@ function kcw_logs_build_session($staffid) {
     //$session["sessionid"] = 0;
     $session["staffid"] = $staffid;
     $session["created"] = time();
-    $session["expires"] = time() + (5 * 60 * 60);
+    //Session is valid for 60 minutes
+    $session["expires"] = time() + (60 * 60);
     $session["token"] = substr(wp_get_session_token(), 5, 10);
 
     return $session;
@@ -37,13 +38,18 @@ function kcw_logs_is_session_valid($token, $staffid) {
     return $session["expires"] < time();
 }
 
+function kcw_logs_get_num_expired_sessions() {
+    return count(kcw_logs_wpdb_util_get_row("logs_sessions", "expires < '".time()."'"));
+}
+
 //Iterate over every session and check if any are expired
 function kcw_logs_delete_expired_sessions() {
     //Get all expired sessions
     $sessions = kcw_logs_wpdb_util_get_row("logs_sessions", "expires < '".time()."'");
+
     //Delete expired sessions
     foreach ($sessions as $session)
-        kcw_logs_wpdb_util_delete_row("logs_sessions", $session["sessionid"]);
+        kcw_logs_wpdb_util_delete_row("logs_sessions", "sessionid = '{$session['sessionid']}'");
 
     return true;
 }
