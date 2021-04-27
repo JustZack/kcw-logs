@@ -6,6 +6,7 @@ include_once "wp-user-helpers.php";
 function kcw_logs_build_session($staffid) {
     $session = array();
 
+    //$session["sessionid"] = 0;
     $session["staffid"] = $staffid;
     $session["created"] = time();
     $session["expires"] = time() + (1 * 60 * 60);

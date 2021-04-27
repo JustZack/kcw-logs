@@ -78,18 +78,16 @@ function kcw_logs_current_user_is_staff() {
 function kcw_logs_insert_staff($staff_email, $staff_data) {
     //Get the WP user for this person
     $wp_user = kcw_logs_wpdb_util_get_row("users", "user_email = '$staff_email'", "*");
-
+    if ($wp_user == NULL) return; 
     //Structure for the staff row
     //staffid, created, name, phone, email, wp_user
     $staff_member = array();
-    $staff_member["created"] =  strtotime($wp_user["user_registered"]);
+    //$staff_member["staffid"] = 0;
+    $staff_member["created"] = strtotime($wp_user["user_registered"]);
     $staff_member["name"] = $staff_data["name"];
     $staff_member["email"] = $wp_user["user_email"];;
-    $staff_member["role"] = -$staff_data["role"];
-    $staff_member["wp_user_id"] = $wp_user["ID"];
-
-    var_dump($wp_user);
-    var_dump($staff_member);
+    $staff_member["role"] = $staff_data["role"];
+    $staff_member["wp_user"] = $wp_user["ID"];
 
     kcw_logs_wpdb_util_insert_row("logs_staff", $staff_member);
 }

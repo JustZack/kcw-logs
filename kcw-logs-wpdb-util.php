@@ -29,7 +29,6 @@ function kcw_logs_wpdb_utils_create_table($table_name, $columns) {
     }
     $cols .= " );";
     $sql = $create . $cols;
-    var_dump($sql);
     return kcw_logs_wpdb_util_query($sql);
 }
 
@@ -47,16 +46,25 @@ function kcw_logs_wpdb_util_data_type_pair($column, $value) {
 //Inserts a new* $row into the $table_name
 function kcw_logs_wpdb_util_insert_row($table_name, $row) {
     $columns = " ( ";
-    foreach($row as $name=>$value) $columns .= "$name, ";
+    $i = 0;
+    foreach($row as $name=>$value) {
+        $columns .= "$name";
+        if (++$i < count($row)) $columns .= ", ";
+        else $columns .= " ";
+    }
     $columns .= " ) ";
 
     $values = " ( ";
-    foreach($row as $name=>$value) $values .= "$value, ";
-    $values .= " );";
+    $i = 0;
+    foreach($row as $name=>$value) { 
+        $values .= "'$value'";
+        if (++$i < count($row)) $values .= ", ";
+        else $values .= " ";
+    }
+    $values .= " )";
 
     global $wpdb;
     $insert = "insert into {$wpdb->prefix}$table_name $columns values $values;";
-
     return kcw_logs_wpdb_util_query($insert);
 }
 
@@ -111,7 +119,6 @@ function kcw_logs_wpdb_util_get_row($table_name, $conditionals = "", $columns = 
     $where = kcw_logs_wpdb_utils_structure_where($conditionals, $default_conditional);
     $select = "select $columns from {$wpdb->prefix}$table_name";
     $sql = "$select $where;";
-    //var_dump($sql);
     return kcw_logs_wpdb_util_query($sql)[0];
 }
 
