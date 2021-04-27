@@ -23,7 +23,7 @@ function kcw_logs_get_session($token) {
 
 //Build and add a session to the database, returns the session token
 function kcw_logs_add_session($staffid) {
-    $session == kcw_logs_build_session($staffid);//Generate the session data
+    $session = kcw_logs_build_session($staffid);//Generate the session data
     return kcw_logs_wpdb_util_insert_row("logs_sessions", $session);
 }
 

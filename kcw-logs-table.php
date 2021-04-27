@@ -5,7 +5,20 @@ function kcw_logs_install_tables() {
         //skip tables that already exist
         if (kcw_logs_wpdb_util_table_exists($name)) continue;
         //Create the table
-        else kcw_logs_wpdb_utils_create_table($name, $data);
+        else {
+            echo "CREATE TABLE $name\n";
+            kcw_logs_wpdb_utils_create_table($name, $data);
+        }
+    }
+}
+
+function kcw_logs_uninstall_tables() {
+    global $kcw_logs_db_table_data;
+    foreach ($kcw_logs_db_table_data as $name=>$data) {
+        //skip tables that already exist
+        if (kcw_logs_wpdb_util_table_exists($name)) {
+            kcw_logs_wpdb_utils_drop_table($name);
+        }
     }
 }
 
@@ -13,7 +26,8 @@ function kcw_logs_any_tables_missing() {
     global $kcw_logs_db_table_data;
     foreach ($kcw_logs_db_table_data as $name=>$data) {
         //If any one table doesnt exist then this check fails
-        if (!kcw_logs_wpdb_util_table_exists($name)) return true;
+        if (kcw_logs_wpdb_util_table_exists($name)) continue;
+        else return true;
     }
     
     return false;
@@ -21,7 +35,7 @@ function kcw_logs_any_tables_missing() {
 
         $kcw_logs_db_table_data = array(
             "logs_project"=>[
-            0=>kcw_logs_wpdb_utils_create_column("projectid","varchar(15)", true, true),
+            0=>kcw_logs_wpdb_utils_create_column("projectid","int(6)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("start","datetime"),
             2=>kcw_logs_wpdb_utils_create_column("end","datetime", false),
             3=>kcw_logs_wpdb_utils_create_column("name","varchar(255)"),
@@ -30,7 +44,7 @@ function kcw_logs_any_tables_missing() {
             6=>kcw_logs_wpdb_utils_create_column("statusid","varchar(15)")
         ],
         "logs_customer"=>[
-            0=>kcw_logs_wpdb_utils_create_column("customerid","varchar(15)", true, true),
+            0=>kcw_logs_wpdb_utils_create_column("customerid","int(6)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("created_date","datetime"),
             2=>kcw_logs_wpdb_utils_create_column("name","varchar(100)"),
             3=>kcw_logs_wpdb_utils_create_column("phone","varchar(25)"),
@@ -38,40 +52,40 @@ function kcw_logs_any_tables_missing() {
             5=>kcw_logs_wpdb_utils_create_column("address","varchar(255)")
         ],
         "logs_tasks"=>[
-            0=>kcw_logs_wpdb_utils_create_column("taskid","varchar(15)"), true, true,
-            1=>kcw_logs_wpdb_utils_create_column("projectid","varchar(15)"),
-            2=>kcw_logs_wpdb_utils_create_column("staffid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("taskid","int(6)"), true, true,
+            1=>kcw_logs_wpdb_utils_create_column("projectid","int(6)"),
+            2=>kcw_logs_wpdb_utils_create_column("staffid","int(6)"),
             3=>kcw_logs_wpdb_utils_create_column("description","varchar(255)"),
             4=>kcw_logs_wpdb_utils_create_column("hours","decimal(3, 3)"),
             5=>kcw_logs_wpdb_utils_create_column("performed","datetime"),
             6=>kcw_logs_wpdb_utils_create_column("submited","datetime"),
         ],
         "logs_staff"=>[
-            0=>kcw_logs_wpdb_utils_create_column("staffid","varchar(15)", true, true),
+            0=>kcw_logs_wpdb_utils_create_column("staffid","int(6)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("created","datetime"),
             2=>kcw_logs_wpdb_utils_create_column("name","varchar(100)"),
-            4=>kcw_logs_wpdb_utils_create_column("email","varchar(100)"),
-            5=>kcw_logs_wpdb_utils_create_column("role","varchar(20)"),
-            6=>kcw_logs_wpdb_utils_create_column("wp_user","bigint(20)"),
+            3=>kcw_logs_wpdb_utils_create_column("email","varchar(100)"),
+            4=>kcw_logs_wpdb_utils_create_column("role","varchar(20)"),
+            5=>kcw_logs_wpdb_utils_create_column("wp_user","bigint(20)"),
         ],
         "logs_expenses"=>[
-            0=>kcw_logs_wpdb_utils_create_column("expenseid","varchar(15)", true, true),
-            1=>kcw_logs_wpdb_utils_create_column("projectid","varchar(255)"),
-            2=>kcw_logs_wpdb_utils_create_column("staffid","varchar(255)"),
+            0=>kcw_logs_wpdb_utils_create_column("expenseid","int(6)", true, true),
+            1=>kcw_logs_wpdb_utils_create_column("projectid","int(6)"),
+            2=>kcw_logs_wpdb_utils_create_column("staffid","int(6)"),
             3=>kcw_logs_wpdb_utils_create_column("added","datetime"),
             4=>kcw_logs_wpdb_utils_create_column("description","varchar(255)"),
             5=>kcw_logs_wpdb_utils_create_column("cost","decimal(6, 3)"),
 
         ],
         "logs_sessions"=>[
-            0=>kcw_logs_wpdb_utils_create_column("sessionid","varchar(15)", true, true),
-            1=>kcw_logs_wpdb_utils_create_column("staffid","varchar(15)"),
+            0=>kcw_logs_wpdb_utils_create_column("sessionid","int(6)", true, true),
+            1=>kcw_logs_wpdb_utils_create_column("staffid","int(6)"),
             2=>kcw_logs_wpdb_utils_create_column("created","datetime"),
             3=>kcw_logs_wpdb_utils_create_column("expires","datetime"),
             4=>kcw_logs_wpdb_utils_create_column("token","varchar(10)"),
         ],
         "logs_status"=>[
-            0=>kcw_logs_wpdb_utils_create_column("statusid","varchar(15)", true, true),
+            0=>kcw_logs_wpdb_utils_create_column("statusid","int(6)", true, true),
             1=>kcw_logs_wpdb_utils_create_column("name","varchar(50)"),
             2=>kcw_logs_wpdb_utils_create_column("description","varchar(255)"),
         ],

@@ -12,7 +12,7 @@ function kcw_logs_wpdb_utils_create_column($varname, $vartype, $NOTNULL = true, 
     $column["name"] = $varname;
     $column["type"] = $vartype;
     $column["options"] = ($NOTNULL?" not null ":"");
-    $column["options"] .= ($primary_key?" auto_increment ":"");
+    $column["options"] .= ($primary_key?" auto_increment, primary key ($varname) ":" ");
     return $column;
 }
 //Creates a table in wordpress;
@@ -22,14 +22,21 @@ function kcw_logs_wpdb_utils_create_table($table_name, $columns) {
     $create = "create table {$wpdb->prefix}$table_name ";
 
     $cols = "( ";
-    for($i = 0;$i < count($columns);$i++) {
+    for ($i = 0;$i < count($columns);$i++) {
         $col = $columns[$i];
         $cols .= "{$col["name"]} {$col["type"]} {$col["options"]}";
         if ($i < count($columns)-1) $cols .= ", ";
     }
     $cols .= " );";
     $sql = $create . $cols;
+    var_dump($sql);
     return kcw_logs_wpdb_util_query($sql);
+}
+
+function kcw_logs_wpdb_utils_drop_table($table_name) {
+    global $wpdb;
+    $drop = "drop table {$wpdb->prefix}$table_name;";
+    return kcw_logs_wpdb_util_query($drop);
 }
 
 function kcw_logs_wpdb_util_data_type_pair($column, $value) {
@@ -48,7 +55,7 @@ function kcw_logs_wpdb_util_insert_row($table_name, $row) {
     $values .= " );";
 
     global $wpdb;
-    $insert = "insert into {$wpdb->prefix}$table_name $columns values $values";
+    $insert = "insert into {$wpdb->prefix}$table_name $columns values $values;";
 
     return kcw_logs_wpdb_util_query($insert);
 }
@@ -116,7 +123,8 @@ function kcw_logs_wpdb_util_delete_row($table_name, $row_id) {
 //Determine if a table exists
 function kcw_logs_wpdb_util_table_exists($table_name) {
     global $wpdb;
-    return ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name);
+    $name = $wpdb->prefix . $table_name;
+    return ($wpdb->get_var("SHOW TABLES LIKE '$name'") == $name);
 }
 
 ?>
