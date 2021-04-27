@@ -10,18 +10,18 @@
 
 include_once "kcw-logs-roles.php";
 include_once "kcw-logs-wpdb-util.php";
+include_once "kcw-logs-staff.php";
 include_once "kcw-logs-table.php";
 include_once "user-interface-functions.php";
 include_once "kcw-logs-session.php";
 
-function  kcw_logs_register__dependencies() {
+function  kcw_logs_register_dependencies() {
     wp_register_style("kcw-logs.main", plugins_url("kcw-gallery.css", __FILE__), array(), "1.0.0");
-    
     wp_register_script("google-apis", "https://apis.google.com/js/api.js", array(), "1.0.0");
     wp_register_script("kcw-logs", plugins_url("kcw-logs.js", __FILE__), array('google-apis'), "1.0.0");
     wp_register_script("kcw-logs.jquery", plugins_url("kcw-logs.jquery.js", __FILE__), array('google-apis', 'jquery', 'kcw-logs'), "1.0.0");
 }
-add_action("wp_enqueue_scripts", "kcw_logs_register__dependencies");
+add_action("wp_enqueue_scripts", "kcw_logs_register_dependencies");
 
 function kcw_logs_enqueue_dependencies() {
     wp_enqueue_style("kcw-logs.main");
@@ -30,25 +30,39 @@ function kcw_logs_enqueue_dependencies() {
     wp_enqueue_script("kcw-logs.jquery");
 }
 
-
-function kcw_logs_install() {
-
-    global $kcw_logs_db_tables;
-    global $kcw_logs_db_columns;
-    for ($i = 0;$i < count($kcw_logs_db_tables);$i++) {
-        kcw_logs_wpdb_utils_create_table($kcw_logs_db_tables[$i], $kcw_logs_db_columns[$i]);
-    }
-}
-register_activation_hook( __FILE__, "kcw_logs_install" );
-
 function kcw_logs_manager_init() {
-    //Register / revalidate session
-    var_dump(kcw_logs_build_session());
-    kcw_logs_determine_interface_buttons();
-    //Engueue nessesary stuff
-    kcw_logs_enqueue_dependencies();
+    //kcw_logs_uninstall_tables();
+    //If current user is staff, show them the log interface 
+    if (/*false && */kcw_logs_current_user_is_staff()) {
+        //Engueue nessesary stuff
+        kcw_logs_enqueue_dependencies();
+
+        //Delete a buildup of expired sessions
+        if (kcw_logs_get_num_expired_sessions() > 10) kcw_logs_delete_expired_sessions();
+
+        //If any tables are missing, create them
+        if (kcw_logs_any_tables_missing()) kcw_logs_install_tables();
+        
+        ///If any of the default staff are missing in the database, add them
+        if (kcw_logs_any_staff_missing()) kcw_logs_insert_default_staff();
+
+        //Get the current users staffid
+        $staffid = kcw_logs_current_user_staffid();
+        //Get the current users session OR create it
+        $session = kcw_logs_get_session($staffid);
+        if (!$session) $session = kcw_logs_start_session($staffid);
+        
+        var_dump($session);
+
+        //kcw_logs_determine_interface_buttons();
+    } 
+    //Else redirect to home page, this is a normal / logged out user
+    else {
+        
+    }
 
 }
 
 add_shortcode("kcw-logs-manager", "kcw_logs_manager_init");
+
 ?>

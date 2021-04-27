@@ -4,8 +4,8 @@ include_once "wp-user-helpers.php";
 include_once "kcw-logs-staff.php";
 
 function kcw_log_get_user_roles() {
-    global $staff;
-    return $staff;
+    global $kcw_logs_default_staff;
+    return $kcw_logs_default_staff;
 }
 
 //Get the current users privilege
@@ -15,16 +15,16 @@ function kcw_logs_wp_current_privilege() {
     if ((kcw_logs_wp_current_is_admin() || kcw_logs_wp_current_is_editor())
      && (kcw_logs_current_is_keymaster() || kcw_logs_current_is_moderator())){
         //Name must be white listed
-        global $staff;
+        global $kcw_logs_default_staff;
         $cemail = kcw_logs_wp_current_user_email();
-        foreach ($staff as $ename=>$eval) {
+        foreach ($kcw_logs_default_staff as $ename=>$eval) {
             //On the list
             if ($ename == $cemail) return $eval;
         }
 
     }
     //Not on the list
-    return false;
+    return "none";
 }
 //Check if the current user can use kcw logs
 function kcw_logs_wp_current_is_priviledged() {

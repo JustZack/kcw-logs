@@ -12,6 +12,7 @@ function kcw_logs_wpdb_utils_create_column($varname, $vartype, $NOTNULL = true, 
     $column["name"] = $varname;
     $column["type"] = $vartype;
     $column["options"] = ($NOTNULL?" not null ":"");
+    $column["options"] .= ($primary_key?" auto_increment, primary key ($varname) ":" ");
     return $column;
 }
 //Creates a table in wordpress;
@@ -21,8 +22,8 @@ function kcw_logs_wpdb_utils_create_table($table_name, $columns) {
     $create = "create table {$wpdb->prefix}$table_name ";
 
     $cols = "( ";
-    for($i = 0;$i < count($columns);$i++) {
-        $col = $columns[$i][0];
+    for ($i = 0;$i < count($columns);$i++) {
+        $col = $columns[$i];
         $cols .= "{$col["name"]} {$col["type"]} {$col["options"]}";
         if ($i < count($columns)-1) $cols .= ", ";
     }
@@ -31,24 +32,35 @@ function kcw_logs_wpdb_utils_create_table($table_name, $columns) {
     return kcw_logs_wpdb_util_query($sql);
 }
 
+function kcw_logs_wpdb_utils_drop_table($table_name) {
+    global $wpdb;
+    $drop = "drop table {$wpdb->prefix}$table_name;";
+    return kcw_logs_wpdb_util_query($drop);
+}
+
 function kcw_logs_wpdb_util_data_type_pair($column, $value) {
     $row_item = array($column=>$value);
     return $row_item;
 }
 
+function kcw_logs_structure_insert_list($data, $surround_with = '') {
+    $list = " ( ";
+    $i = 0;
+    foreach($data as $key) {
+        $list .= $surround_with . "$key" . $surround_with;
+        if (++$i < count($data)) $list .= ", ";
+        else $list .= " ";
+    }
+    $list .= " ) ";
+    return $list;
+}
+
 //Inserts a new* $row into the $table_name
 function kcw_logs_wpdb_util_insert_row($table_name, $row) {
-    $columns = " ( ";
-    foreach($row as $name=>$value) $columns .= "$name, ";
-    $columns .= " ) ";
-
-    $values = " ( ";
-    foreach($row as $name=>$value) $values .= "$value, ";
-    $values .= " );";
-
     global $wpdb;
-    $insert = "insert into {$wpdb->prefix}$table_name $columns values $values";
-
+    $columns = kcw_logs_structure_insert_list(array_keys($row));
+    $values = kcw_logs_structure_insert_list(array_values($row), "'");
+    $insert = "insert into {$wpdb->prefix}$table_name $columns values $values;";
     return kcw_logs_wpdb_util_query($insert);
 }
 
@@ -107,8 +119,19 @@ function kcw_logs_wpdb_util_get_row($table_name, $conditionals = "", $columns = 
 }
 
 //Deletes the row in the given table with the given $row_id
-function kcw_logs_wpdb_util_delete_row($table_name, $row_id) {
+function kcw_logs_wpdb_util_delete_row($table_name, $condition) {
+    global $wpdb;
+    $delete = "delete from {$wpdb->prefix}$table_name";
+    $where = kcw_logs_wpdb_utils_structure_where($condition, "and");
+    $sql = "$delete $where;";
+    return kcw_logs_wpdb_util_query($sql);
+}
 
+//Determine if a table exists
+function kcw_logs_wpdb_util_table_exists($table_name) {
+    global $wpdb;
+    $name = $wpdb->prefix . $table_name;
+    return ($wpdb->get_var("SHOW TABLES LIKE '$name'") == $name);
 }
 
 ?>
