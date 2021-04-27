@@ -9,23 +9,24 @@ function kcw_logs_build_session($staffid) {
     //$session["sessionid"] = 0;
     $session["staffid"] = $staffid;
     $session["created"] = time();
-    $session["expires"] = time() + (1 * 60 * 60);
+    $session["expires"] = time() + (5 * 60 * 60);
     $session["token"] = substr(wp_get_session_token(), 5, 10);
 
     return $session;
 }
 
-//Returns the session
-function kcw_logs_get_session($token) {
-    $session = kcw_logs_wpdb_util_get_row("logs_sessions", "token = '$token'");
+//Returns the session for the given staff member
+function kcw_logs_get_session($staffid) {
+    $session = kcw_logs_wpdb_util_get_row("logs_sessions", ["staffid = '$staffid'", "expires > '".time()."'"]);
     if (count($session) == 0) return false;
     else return $session;
 }
 
 //Build and add a session to the database, returns the session token
-function kcw_logs_add_session($staffid) {
+function kcw_logs_start_session($staffid) {
     $session = kcw_logs_build_session($staffid);//Generate the session data
-    return kcw_logs_wpdb_util_insert_row("logs_sessions", $session);
+    kcw_logs_wpdb_util_insert_row("logs_sessions", $session);
+    return kcw_logs_get_session($staffid);
 }
 
 //Check if the given session is valid

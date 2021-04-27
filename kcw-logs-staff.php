@@ -74,6 +74,14 @@ function kcw_logs_current_user_is_staff() {
     return false;
 }
 
+function kcw_logs_current_user_staffid() {
+    $email = kcw_logs_wp_current_user_email();
+    $staff_row = kcw_logs_wpdb_util_get_row("logs_staff", "email = '$email'", "*");
+
+    if ($email == $staff_row["email"]) return $staff_row["staffid"];
+    return null;
+}
+
 
 function kcw_logs_insert_staff($staff_email, $staff_data) {
     //Get the WP user for this person

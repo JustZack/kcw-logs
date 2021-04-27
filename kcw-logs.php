@@ -34,13 +34,17 @@ function kcw_logs_manager_init() {
     //kcw_logs_uninstall_tables();
     //If current user is staff, show them the log interface
     if (/*false && */kcw_logs_current_user_is_staff()) {
+        $staffid = kcw_logs_current_user_staffid();
         //If any tables are missing, create them
         if (kcw_logs_any_tables_missing()) kcw_logs_install_tables();
         
         ///If any of the default staff are missing in the database, add them
         if (kcw_logs_any_staff_missing()) kcw_logs_insert_default_staff();
 
-        var_dump("staff");
+        $session = kcw_logs_get_session($staffid);;
+        if (!$session) $session = kcw_logs_start_session($staffid);
+        
+        var_dump($session);
 
         if (false/*kcw_logs_current_session_exists*/); //Use the session
         else; //Build, store, and use the session
