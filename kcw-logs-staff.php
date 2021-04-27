@@ -49,22 +49,23 @@ function kcw_logs_any_staff_missing() {
     }
 }
 
+function kcw_logs_user_is_default_staff($email) {
+    //Check if this user is in the staff object
+    global $kcw_logs_default_staff;
+    foreach ($kcw_logs_default_staff as $kcw_email=>$data)
+        if ($email == $kcw_email) 
+            return true;
+    return false;
+}
+
 function kcw_logs_current_user_is_staff() {
     $email = kcw_logs_wp_current_user_email();
     $staff_row = kcw_logs_wpdb_util_get_row("logs_staff", "email = '$email'", "*")[0];
     //If a row in the database doesnt exist, it may have not even been added yet.
-    if (count($staff_row) == 0) {
-        //Check if this user is in the staff object
-        global $kcw_logs_default_staff;
-        foreach ($kcw_logs_default_staff as $kcw_email=>$data)
-            if ($email == $kcw_email) 
-                return true;
-    } else {
-        //Check if this user exists in the db table
-        if ($email == $staff_row["email"]) return true;
-    }
-
-    return false;
+    if (count($staff_row) == 0) return kcw_logs_user_is_default_staff($email);
+    //Check if this user exists in the db table
+    else if ($email == $staff_row["email"]) return true;
+    else return false;
 }
 
 function kcw_logs_current_user_staffid() {
