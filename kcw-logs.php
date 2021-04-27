@@ -32,7 +32,7 @@ function kcw_logs_enqueue_dependencies() {
 
 function kcw_logs_manager_init() {
     //kcw_logs_uninstall_tables();
-    //If current user is staff, show them the log interface
+    //If current user is staff, show them the log interface 
     if (/*false && */kcw_logs_current_user_is_staff()) {
         //Delete a buildup of expired sessions
         if (kcw_logs_get_num_expired_sessions() > 10) kcw_logs_delete_expired_sessions();
@@ -45,7 +45,6 @@ function kcw_logs_manager_init() {
 
         //Get the current users staffid
         $staffid = kcw_logs_current_user_staffid();
-
         //Get the current users session OR create it
         $session = kcw_logs_get_session($staffid);
         if (!$session) $session = kcw_logs_start_session($staffid);

@@ -43,27 +43,23 @@ function kcw_logs_wpdb_util_data_type_pair($column, $value) {
     return $row_item;
 }
 
+function kcw_logs_structure_insert_list($data, $surround_with = '') {
+    $list = " ( ";
+    $i = 0;
+    foreach($data as $key) {
+        $list .= $surround_with . "$key" . $surround_with;
+        if (++$i < count($data)) $list .= ", ";
+        else $list .= " ";
+    }
+    $list .= " ) ";
+    return $list;
+}
+
 //Inserts a new* $row into the $table_name
 function kcw_logs_wpdb_util_insert_row($table_name, $row) {
-    $columns = " ( ";
-    $i = 0;
-    foreach($row as $name=>$value) {
-        $columns .= "$name";
-        if (++$i < count($row)) $columns .= ", ";
-        else $columns .= " ";
-    }
-    $columns .= " ) ";
-
-    $values = " ( ";
-    $i = 0;
-    foreach($row as $name=>$value) { 
-        $values .= "'$value'";
-        if (++$i < count($row)) $values .= ", ";
-        else $values .= " ";
-    }
-    $values .= " )";
-
     global $wpdb;
+    $columns = kcw_logs_structure_insert_list(array_keys($row));
+    $values = kcw_logs_structure_insert_list(array_values($row), "'");
     $insert = "insert into {$wpdb->prefix}$table_name $columns values $values;";
     return kcw_logs_wpdb_util_query($insert);
 }
