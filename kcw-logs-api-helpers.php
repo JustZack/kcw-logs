@@ -26,7 +26,7 @@ function kcw_logs_api_error_invalid_session($token) {
 function kcw_logs_api_extend_session($token, $hours = 2) {
     $staffid = kcw_logs_get_staffid_for_session($token);
     $session = kcw_logs_renew_session($staffid, $hours);
-    return true;
+    return $session;
 }
 //Ensure the session is valid and continues being valid while being used
 function kcw_logs_api_validate_session($token) {
