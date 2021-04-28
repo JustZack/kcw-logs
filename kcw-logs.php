@@ -14,6 +14,7 @@ include_once "kcw-logs-staff.php";
 include_once "kcw-logs-table.php";
 include_once "user-interface-functions.php";
 include_once "kcw-logs-session.php";
+include_once "kcw-logs-api.php";
 
 function  kcw_logs_register_dependencies() {
     wp_register_style("kcw-logs.main", plugins_url("kcw-gallery.css", __FILE__), array(), "1.0.0");
