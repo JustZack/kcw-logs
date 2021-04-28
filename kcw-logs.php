@@ -50,7 +50,7 @@ function kcw_logs_manager_init() {
         //Get the current users staffid
         $staffid = kcw_logs_current_user_staffid();
         //Get the current users session OR create it
-        $session = kcw_logs_get_session($staffid);
+        $session = kcw_logs_get_staff_session($staffid);
         if (!$session) $session = kcw_logs_start_session($staffid);
         
         var_dump($session);

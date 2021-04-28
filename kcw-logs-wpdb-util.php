@@ -65,8 +65,13 @@ function kcw_logs_wpdb_util_insert_row($table_name, $row) {
 }
 
 //Updates the given row in the table with the row_id
-function kcw_logs_wpdb_util_update_row($table_name, $row_id, $row) {
-    
+function kcw_logs_wpdb_util_update_row($table_name, $row, $conditionals) {
+    global $wpdb;
+    $update = "update {$wpdb->prefix}$table_name";
+    $set = kcw_logs_wpdb_utils_structure_set($row);
+    $where = kcw_logs_wpdb_utils_structure_where($conditionals, "and");
+    $sql = "$update $set $where";
+    return kcw_logs_wpdb_util_query($sql);
 }
 
 function kcw_logs_wpdb_utils_structure_list($items, $separator) {
@@ -107,6 +112,24 @@ function kcw_logs_wpdb_utils_structure_where($conditionals, $conditional_operato
     }
 
     return $where_sql;
+}
+//Structure update sets
+function kcw_logs_wpdb_utils_structure_set($row) {
+    $set_sql = "set ";
+
+    if (!isset($row) || $row == "") {
+        $set_sql = "";
+    } else {
+        if (is_string($row)) {
+            $set_sql .= $row;
+        } else {
+            $items = array();
+            foreach ($row as $key=>$val) $items[] = "$key = $val";
+            $set_sql .= kcw_logs_wpdb_utils_structure_list($items, ',');
+        }
+    }
+
+    return $set_sql;
 }
 //Returns the entire row for the given table and $row_id
 function kcw_logs_wpdb_util_get_row($table_name, $conditionals = "", $columns = "*", $default_conditional = "and") {

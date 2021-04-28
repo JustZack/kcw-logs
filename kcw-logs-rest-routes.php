@@ -9,9 +9,10 @@ function kcw_logs_api_RegisterTimesheetRoutes() {
     $token = $kcw_logs_auth_token_rest_format;
     
     //Route for listing the current users timesheets
+    //Returns auth error if the token cant view timesheets
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/timesheets", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_list_Timesheets',
     ));
 
     //Route for listing all timesheets visible to the given user
@@ -45,6 +46,13 @@ function kcw_logs_api_RegisterProjectRoutes() {
     //If the given token isnt authenticated to view projects, returns auth error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/projects", array(
         'methods' => 'GET',
+        'callback' => 'kcw_logs_api_list_Projects',
+    ));
+
+    //Route for searching through all the customers in the customers table (limited based on to_show)
+    //If the given token isnt authenticated to view customers, returns auth error
+    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/projects/search/(?P<projectssearch>[a-zA-Z0-9]+)/(?P<to_show>[0-9])", array(
+        'methods' => 'GET',
         'callback' => 'kcw_logs_',
     ));
 
@@ -72,7 +80,7 @@ function kcw_logs_api_RegisterStaffRoutes() {
     //If the given token isnt authenticated to view staff, returns auth error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/staff", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_list_Staff',
     ));
 
     //Route for searching through all the staff members in the staff table (limited based on to_show)
@@ -106,7 +114,7 @@ function kcw_logs_api_RegisterCustomerRoutes() {
     //If the given token isnt authenticated to view customers, returns auth error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/customers", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_list_Customers',
     ));
 
     //Route for searching through all the customers in the customers table (limited based on to_show)
