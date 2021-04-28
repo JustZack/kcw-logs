@@ -80,7 +80,8 @@ function kcw_logs_current_user_staffid() {
 function kcw_logs_insert_staff($staff_email, $staff_data) {
     //Get the WP user for this person
     $wp_user = kcw_logs_wpdb_util_get_row("users", "user_email = '$staff_email'", "*");
-    if ($wp_user == NULL) return; 
+    if (count($wp_user) == 1) $wp_user = $wp_user[0]; 
+    else return;
     //Structure for the staff row
     //staffid, created, name, phone, email, wp_user
     $staff_member = array();

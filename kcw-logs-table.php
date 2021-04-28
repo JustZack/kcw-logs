@@ -79,7 +79,7 @@ function kcw_logs_any_tables_missing() {
             1=>kcw_logs_wpdb_utils_create_column("staffid","int(6)"),
             2=>kcw_logs_wpdb_utils_create_column("created","int(10)"),
             3=>kcw_logs_wpdb_utils_create_column("expires","int(10)"),
-            4=>kcw_logs_wpdb_utils_create_column("token","varchar(10)")
+            4=>kcw_logs_wpdb_utils_create_column("token","varchar(50)")
         ],
         "logs_status"=>[
             0=>kcw_logs_wpdb_utils_create_column("statusid","int(6)", true, true),

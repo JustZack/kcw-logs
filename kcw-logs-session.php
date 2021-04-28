@@ -11,7 +11,7 @@ function kcw_logs_build_session($staffid) {
     $session["created"] = time();
     //Session is valid for 60 minutes
     $session["expires"] = time() + (60 * 60);
-    $session["token"] = substr(wp_get_session_token(), 5, 10);
+    $session["token"] = substr(wp_get_session_token(), 0, 50);
 
     return $session;
 }
