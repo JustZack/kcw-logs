@@ -34,14 +34,14 @@ function kcw_logs_api_RegisterTimesheetRoutes() {
     //Retuns any timesheets visible to the current user, including their own
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/timesheets/all", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_list_all_Timesheets',
     ));
 
     //Route for search through all timesheets visible to the given user
     //Retuns any timesheets visible to the current user, including their own
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/timesheets/all/search", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_search_all_Timesheets',
     ));
 
     //Route for getting a timesheet based on the given timesheet id
