@@ -37,8 +37,8 @@ function kcw_logs_manager_init() {
         //Engueue nessesary stuff
         kcw_logs_enqueue_dependencies();
 
-        //Delete a buildup of expired sessions
-        if (kcw_logs_get_num_expired_sessions() > 10) kcw_logs_delete_expired_sessions();
+        //Delete any expired sessions first
+        kcw_logs_delete_expired_sessions();
 
         //If any tables are missing, create them
         if (kcw_logs_any_tables_missing()) kcw_logs_install_tables();
