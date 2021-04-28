@@ -23,9 +23,9 @@ function kcw_logs_api_error_invalid_session($token) {
     return kcw_logs_api_error("Invalid Session Token: '$token'");
 }
 //Extend the life of the given session by the number of hours past the current time
-function kcw_logs_api_extend_session($token, $hours) {
+function kcw_logs_api_extend_session($token, $hours = 2) {
     $staffid = kcw_logs_get_staffid_for_session($token);
-    $session = kcw_logs_extend_session($staffid, $hours);
+    $session = kcw_logs_renew_session($staffid, $hours);
     return true;
 }
 //Ensure the session is valid and continues being valid while being used
@@ -33,7 +33,7 @@ function kcw_logs_api_validate_session($token) {
     $valid = kcw_logs_is_session_valid($token);
     //If valid, extend the session and return true
     if ($valid) {
-        kcw_logs_api_extend_session($token, 2);
+        kcw_logs_api_extend_session($token);
         return true;
     } else {
         return false;

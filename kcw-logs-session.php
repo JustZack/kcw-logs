@@ -44,7 +44,7 @@ function kcw_logs_start_session($staffid) {
     return kcw_logs_get_staff_session($staffid);
 }
 
-function kcw_logs_extend_session($staffid, $hours) {
+function kcw_logs_renew_session($staffid, $hours = 2) {
     $session = kcw_logs_get_staff_session($staffid);
 
     $row = array();
