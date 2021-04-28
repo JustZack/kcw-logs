@@ -3,19 +3,24 @@
 $kcw_logs_api_namespace = "kcwlogs";
 //Allow WP Token format (alphanumber)
 $kcw_logs_auth_token_rest_format = "(?P<token>[a-zA-Z0-9]+)";
-//Allow only numbers
-$kcw_logs_limit_rest_format = "(?P<limit>[0-9]?)";
 //Allow alphanumberic and a DOT or DASH
 $kcw_logs_search_rest_format = "(?P<search>[a-zA-Z0-9-\.]+)";
+//Allow only numbers
+$kcw_logs_limit_rest_format = "(?P<limit>[0-9]+)";
+//Allow only numbers
+$kcw_logs_id_rest_format = "(?P<id>[0-9]+)";
 
 
 function kcw_logs_api_RegisterTimesheetRoutes() {
     global $kcw_logs_api_namespace;
     global $kcw_logs_auth_token_rest_format;
     global $kcw_logs_search_rest_format;
+    global $kcw_logs_id_rest_format;
+
     $token = $kcw_logs_auth_token_rest_format;
     $search_str = $kcw_logs_search_rest_format;
-    
+    $id = $kcw_logs_id_rest_format;
+
     //Route for listing the current users timesheets
     //Returns auth error if the token cant view timesheets
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/timesheets", array(
@@ -46,7 +51,7 @@ function kcw_logs_api_RegisterTimesheetRoutes() {
 
     //Route for getting a timesheet based on the given timesheet id
     //If the given token isnt authenticated to view that timesheet, returns does not exist error
-    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/timesheet/(?P<timesheetid>[0-9]+)", array(
+    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/timesheet/$id", array(
         'methods' => 'GET',
         'callback' => 'kcw_logs_',
     ));
@@ -63,9 +68,12 @@ function kcw_logs_api_RegisterProjectRoutes() {
     global $kcw_logs_api_namespace;
     global $kcw_logs_auth_token_rest_format;
     global $kcw_logs_search_rest_format;
+    global $kcw_logs_id_rest_format;
+
     $token = $kcw_logs_auth_token_rest_format;
     $search_str = $kcw_logs_search_rest_format;
-    
+    $id = $kcw_logs_id_rest_format;
+
     //Route for listing all projects
     //If the given token isnt authenticated to view projects, returns auth error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/projects", array(
@@ -82,7 +90,7 @@ function kcw_logs_api_RegisterProjectRoutes() {
 
     //Route for getting a project based on the given project id
     //If the given token isnt authenticated to view that project, returns does not exist error
-    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/project/(?P<projectid>[0-9]+)", array(
+    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/project/$id", array(
         'methods' => 'GET',
         'callback' => 'kcw_logs_',
     ));
@@ -99,9 +107,12 @@ function kcw_logs_api_RegisterStaffRoutes() {
     global $kcw_logs_api_namespace;
     global $kcw_logs_auth_token_rest_format;
     global $kcw_logs_search_rest_format;
+    global $kcw_logs_id_rest_format;
+
     $token = $kcw_logs_auth_token_rest_format;
     $search_str = $kcw_logs_search_rest_format;
-    
+    $id = $kcw_logs_id_rest_format;
+
     //Route for listing all staff
     //If the given token isnt authenticated to view staff, returns auth error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/staff", array(
@@ -111,7 +122,7 @@ function kcw_logs_api_RegisterStaffRoutes() {
 
     //Route for getting a staff member based on the given staff id
     //If the given token isnt authenticated to view staff members, returns does not exist error
-    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/staff/(?P<staffid>[0-9]+)", array(
+    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/staff/$id", array(
         'methods' => 'GET',
         'callback' => 'kcw_logs_',
     ));
@@ -128,9 +139,11 @@ function kcw_logs_api_RegisterCustomerRoutes() {
     global $kcw_logs_api_namespace;
     global $kcw_logs_auth_token_rest_format;
     global $kcw_logs_search_rest_format;
+    global $kcw_logs_id_rest_format;
+
     $token = $kcw_logs_auth_token_rest_format;
     $search_str = $kcw_logs_search_rest_format;
-    
+    $id = $kcw_logs_id_rest_format;
     //Route for listing all customers
     //If the given token isnt authenticated to view customers, returns auth error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/customers", array(
@@ -147,7 +160,7 @@ function kcw_logs_api_RegisterCustomerRoutes() {
 
     //Route for getting a customer based on the given customer id
     //If the given token isnt authenticated to view customer, returns does not exist error
-    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/customer/(?P<customerid>[0-9]+)", array(
+    register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/customer/$id", array(
         'methods' => 'GET',
         'callback' => 'kcw_logs_',
     ));
