@@ -53,7 +53,7 @@ function kcw_logs_api_RegisterTimesheetRoutes() {
     //If the given token isnt authenticated to view that timesheet, returns does not exist error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/timesheet/$id", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_get_Timesheet',
     ));
 
     //Route for creating a new timesheet
@@ -92,7 +92,7 @@ function kcw_logs_api_RegisterProjectRoutes() {
     //If the given token isnt authenticated to view that project, returns does not exist error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/project/$id", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_get_Project',
     ));
 
     //Route for creating a project
@@ -124,7 +124,7 @@ function kcw_logs_api_RegisterStaffRoutes() {
     //If the given token isnt authenticated to view staff members, returns does not exist error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/staff/$id", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_get_Staff',
     ));
 
     //Route for creating a staff member
@@ -162,7 +162,7 @@ function kcw_logs_api_RegisterCustomerRoutes() {
     //If the given token isnt authenticated to view customer, returns does not exist error
     register_rest_route( "$kcw_logs_api_namespace/v1", "/$token/customer/$id", array(
         'methods' => 'GET',
-        'callback' => 'kcw_logs_',
+        'callback' => 'kcw_logs_api_get_Customer',
     ));
 
     //Route for creating a customer
